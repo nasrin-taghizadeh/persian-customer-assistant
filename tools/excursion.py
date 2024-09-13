@@ -1,3 +1,4 @@
+"""searching trip, booking excursion, updating time slot and canceling excursion"""
 from typing import Optional, Union, Type
 import sqlite3
 from langchain_core.tools import BaseTool
@@ -64,6 +65,10 @@ class SearchTrip(BaseTool):
             dict(zip([column[0] for column in cursor.description], row)) for row in results
         ]
 
+    @staticmethod
+    def get_file_docstring():
+        return get_tool_group_desc()
+
 
 class BookExcursionIntput(BaseModel):
     recommendation_id: int = Field(description="The ID of the trip recommendation to book.")
@@ -105,6 +110,10 @@ class BookExcursion(BaseTool):
         else:
             conn.close()
             return f"No trip recommendation found with ID {recommendation_id}."
+
+    @staticmethod
+    def get_file_docstring():
+        return get_tool_group_desc()
 
 
 class UpdateExcursionIntput(BaseModel):
@@ -151,6 +160,10 @@ class UpdateExcursion(BaseTool):
             conn.close()
             return f"No trip recommendation found with ID {recommendation_id}."
 
+    @staticmethod
+    def get_file_docstring():
+        return get_tool_group_desc()
+
 
 class CancelExcursionIntput(BaseModel):
     recommendation_id: int = Field(description="The ID of the trip recommendation to cancel.")
@@ -192,3 +205,11 @@ class CancelExcursion(BaseTool):
         else:
             conn.close()
             return f"No trip recommendation found with ID {recommendation_id}."
+
+    @staticmethod
+    def get_file_docstring():
+        return get_tool_group_desc()
+
+
+def get_tool_group_desc():
+    return __doc__

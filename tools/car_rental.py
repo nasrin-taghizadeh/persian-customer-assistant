@@ -1,3 +1,4 @@
+"""searching car for rent, also booking and canceling car rental, and changing time slot of rental"""
 from datetime import date, datetime
 from typing import Optional, Union, Type
 import sqlite3
@@ -71,6 +72,10 @@ class SearchCarRentals(BaseTool):
             dict(zip([column[0] for column in cursor.description], row)) for row in results
         ]
 
+    @staticmethod
+    def get_file_docstring():
+        return get_tool_group_desc()
+
 
 class BookCarRentalInput(BaseModel):
     rental_id: int = Field(description="The ID of the car rental to book.")
@@ -109,7 +114,9 @@ class BookCarRental(BaseTool):
         else:
             conn.close()
             return f"No car rental found with ID {rental_id}."
-
+    @staticmethod
+    def get_file_docstring():
+        return get_tool_group_desc()
 
 class UpdateCarRentalInput(BaseModel):
     rental_id: int = Field(description="The ID of the car rental to update.")
@@ -166,7 +173,9 @@ class UpdateCarRental(BaseTool):
         else:
             conn.close()
             return f"No car rental found with ID {rental_id}."
-
+    @staticmethod
+    def get_file_docstring():
+        return get_tool_group_desc()
 
 class CancelCarRentalInput(BaseModel):
     rental_id: int = Field(description="The ID of the car rental to cancel.")
@@ -205,3 +214,12 @@ class CancelCarRental(BaseTool):
         else:
             conn.close()
             return f"No car rental found with ID {rental_id}."
+    @staticmethod
+    def get_file_docstring():
+        return get_tool_group_desc()
+
+def get_tool_group_desc():
+    return __doc__
+
+if __name__ == "__main__":
+    print(__doc__)

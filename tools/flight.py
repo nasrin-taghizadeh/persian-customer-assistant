@@ -1,3 +1,4 @@
+"""fetch related information for already booked tickets, searching available flights, updating and cancelling flight ticket"""
 import sqlite3
 from datetime import date, datetime
 from typing import Optional, Type
@@ -61,14 +62,16 @@ class FetchUserFlightInfo(BaseTool):
         conn.close()
 
         return results
-
+    @staticmethod
+    def get_file_docstring():
+        return get_tool_group_desc()
 
 class SearchFlightInput(BaseModel):
     departure_airport: Optional[str] = Field(description="departure airport")
     arrival_airport: Optional[str] = Field(description="arrival airport")
     start_time: Optional[date | datetime] = Field(description="departure start time")
     end_time: Optional[date | datetime] = Field(description="departure end time")
-    limit: int = 20,
+    limit: int = Field(description="limit of search")
 
 
 class SearchFlight(BaseTool):
@@ -124,7 +127,9 @@ class SearchFlight(BaseTool):
 
         return results
 
-
+    @staticmethod
+    def get_file_docstring():
+        return get_tool_group_desc()
 class UpdateTicketInput(BaseModel):
     ticket_no: str = Field(description="ticket number")
     new_flight_id: int = Field(description="new flight ID")
@@ -207,13 +212,15 @@ class UpdateTicket(BaseTool):
         conn.close()
         return "Ticket successfully updated to new flight."
 
-
+    @staticmethod
+    def get_file_docstring():
+        return get_tool_group_desc()
 class CancelTicketInput(BaseModel):
     ticket_no: str = Field(description="ticket number")
 
 
 class CancelTicket(BaseTool):
-    name: str = "cancel_ticket"
+    name: str = "cancel_flight_ticket"
     description: str = "Cancel the user's ticket and remove it from the database"
     args_schema: Type[BaseModel] = CancelTicketInput
     return_direct: bool = False
@@ -259,3 +266,9 @@ class CancelTicket(BaseTool):
         cursor.close()
         conn.close()
         return "Ticket successfully cancelled."
+    @staticmethod
+    def get_file_docstring():
+        return get_tool_group_desc()
+
+def get_tool_group_desc():
+    return __doc__
