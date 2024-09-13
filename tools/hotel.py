@@ -1,3 +1,4 @@
+"""searching for hotels, booking and cancelling hotel and updating check-in and check-out dates"""
 import sqlite3
 from datetime import date, datetime
 from typing import Optional, Union, Type
@@ -68,6 +69,10 @@ class SearchHotel(BaseTool):
             dict(zip([column[0] for column in cursor.description], row)) for row in results
         ]
 
+    @staticmethod
+    def get_file_docstring():
+        return get_tool_group_desc()
+
 
 class BookHotelIntput(BaseModel):
     hotel_id: int = Field(description="The ID of the hotel to book.")
@@ -107,6 +112,10 @@ class BookHotel(BaseTool):
         else:
             conn.close()
             return f"No hotel found with ID {hotel_id}."
+
+    @staticmethod
+    def get_file_docstring():
+        return get_tool_group_desc()
 
 
 class UpdateHotelIntput(BaseModel):
@@ -165,6 +174,10 @@ class UpdateHotel(BaseTool):
             conn.close()
             return f"No hotel found with ID {hotel_id}."
 
+    @staticmethod
+    def get_file_docstring():
+        return get_tool_group_desc()
+
 
 class CancelHotelIntput(BaseModel):
     hotel_id: int = Field(description="The ID of the hotel to cancel.")
@@ -204,3 +217,11 @@ class CancelHotel(BaseTool):
         else:
             conn.close()
             return f"No hotel found with ID {hotel_id}."
+
+    @staticmethod
+    def get_file_docstring():
+        return get_tool_group_desc()
+
+
+def get_tool_group_desc():
+    return __doc__
