@@ -11,12 +11,12 @@ def set_envs():
     os.environ["LANGCHAIN_TRACING_V2"] = "true"
     os.environ["LANGCHAIN_PROJECT"] = "Persian Customer Support Bot"
     os.environ['LANGCHAIN_ENDPOINT'] = 'https://api.smith.langchain.com'
-    os.environ['LANGCHAIN_API_KEY'] = "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"
-    os.environ['TAVILY_API_KEY'] = "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"
-    # os.environ['GROQ_API_KEY'] = "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"
+    os.environ['LANGCHAIN_API_KEY'] = ""
+    os.environ['TAVILY_API_KEY'] = ""
+    os.environ['GROQ_API_KEY'] = ""
     os.environ['CUDA_LAUNCH_BLOCKING'] = "1"
     os.environ['TORCH_USE_CUDA_DSA'] = "1"
-    os.environ["HF_TOKEN"] = "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"
+    os.environ["HF_TOKEN"] = ""
 
 
 def main():
