@@ -1,3 +1,4 @@
+import json
 import os
 import uuid
 from data.data_base import load_travel_db
@@ -11,17 +12,22 @@ def set_envs():
     os.environ["LANGCHAIN_TRACING_V2"] = "true"
     os.environ["LANGCHAIN_PROJECT"] = "Persian Customer Support Bot"
     os.environ['LANGCHAIN_ENDPOINT'] = 'https://api.smith.langchain.com'
-    os.environ['LANGCHAIN_API_KEY'] = ""
-    os.environ['TAVILY_API_KEY'] = ""
-    os.environ['GROQ_API_KEY'] = ""
     os.environ['CUDA_LAUNCH_BLOCKING'] = "1"
     os.environ['TORCH_USE_CUDA_DSA'] = "1"
     os.environ["HF_TOKEN"] = ""
 
 
+def read_and_set_env():
+    with open("key/keys.json", encoding="utf-8") as f:
+        keys = json.load(f)
+    for key_name, key_val in keys.items():
+        os.environ[key_name] = key_val
+
+
 def main():
     data_dir = "data/"
     set_envs()
+    read_and_set_env()
     travel_db = load_travel_db(data_dir)
 
     # llm, embedding_model = get_llama_3_8b_on_hf_hub("meta")
